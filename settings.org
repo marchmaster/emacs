@@ -1,0 +1,66 @@
+#+TITLE: Emacs Settings
+* personal information
+* package management
+  *package init*
+** package init
+ #+BEGIN_SRC emacs-lisp
+     (require 'package)
+     (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+			      ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+     (package-initialize)
+
+     (when (not package-archive-contents)
+       (package-refresh-contents))
+ #+END_SRC
+
+* customized settings
+ #+BEGIN_SRC emacs-lisp
+     (evil-mode 1)
+     (ivy-mode)
+     (org-mode)
+     (undo-tree-mode 0)
+     (blink-cursor-mode 0)
+     ;;(setq undo-tree-enable-undo-in-region nil)
+     (require 'org-bullets)
+     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+     (setq org-ellipsis "⤵")
+     (setq inhibit-startup-message t) 
+     (menu-bar-mode 0) 
+     (tool-bar-mode 0)
+     (scroll-bar-mode 0) 
+     (global-set-key "\C-s" 'swiper)
+     (global-set-key "\C-r" 'counsel-esh-history)
+     (undo-tree-mode)
+     (global-hl-line-mode t)
+     (setq sml/no-confirm-load-theme t)
+     (sml/setup)
+     (set-default-font "Source Code Pro 12")
+     ;;(set-default-font "Monoid 12")
+     ;;(setq jiralib-url "https://jira.deepglint.com")
+     ;; latex settings
+     (setenv "PATH" (concat (getenv "PATH") ":/Library/TeX/texbin"))
+     ;; Use XeLaTeX to export PDF in Org-mode
+     (setq exec-path (append exec-path '("/Library/TeX/texbin")))
+     (setq org-latex-pdf-process
+	'("xelatex -interaction nonstopmode -output-directory %o %f"
+	  "xelatex -interaction nonstopmode -output-directory %o %f"
+	  "xelatex -interaction nonstopmode -output-directory %o %f"))
+    (setq org-confirm-babel-evaluate nil)
+    (org-babel-do-load-languages
+      'org-babel-load-languages
+      '((emacs-lisp . nil)
+        (python . t)
+	))
+ #+END_SRC
+
+* email settings
+** email sending settings
+  #+BEGIN_SRC emacs-lisp
+    (setq send-mail-function    'smtpmail-send-it
+	  smtpmail-smtp-server  "smtp.exmail.qq.com"
+	  smtpmail-stream-type  'ssl
+	  smtpmail-smtp-service 465
+	  user-full-name "yuhengli"
+	  user-mail-address "yuhengli@deepglint.com")
+  #+END_SRC
+
